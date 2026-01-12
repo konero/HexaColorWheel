@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>OTWheel - Demo</title>
+<style>
+  body {
+    background: #333;
+    color: #ddd;
+    font-family: sans-serif;
+    padding: 20px;
+  }
+
+  h1 {
+    margin-bottom: 10px;
+  }
+
+  .demo-section {
+    margin-bottom: 30px;
+    padding: 20px;
+    background: #444;
+    border-radius: 8px;
+  }
+
+  .demo-section h2 {
+    margin-top: 0;
+    border-bottom: 1px solid #555;
+    padding-bottom: 10px;
+  }
+
+  .picker-container {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+
+  .color-info {
+    font-family: monospace;
+    font-size: 14px;
+    background: #333;
+    padding: 15px;
+    border-radius: 4px;
+  }
+
+  .color-preview {
+    width: 100px;
+    height: 100px;
+    border: 2px solid #666;
+    border-radius: 4px;
+    margin-bottom: 15px;
+  }
+
+  .controls {
+    margin-top: 15px;
+  }
+
+  .controls label {
+    display: block;
+    margin-bottom: 10px;
+  }
+
+  .controls input[type="range"] {
+    width: 200px;
+    vertical-align: middle;
+  }
+
+  .controls input[type="text"] {
+    width: 80px;
+    padding: 4px;
+    font-family: monospace;
+  }
+
+  button {
+    padding: 8px 16px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    background: #555;
+    color: #fff;
+    border: 1px solid #666;
+    border-radius: 4px;
+  }
+
+  button:hover {
+    background: #666;
+  }
+
+  .code-example {
+    background: #222;
+    padding: 15px;
+    border-radius: 4px;
+    font-family: monospace;
+    font-size: 13px;
+    overflow-x: auto;
+    white-space: pre;
+  }
+</style>
+</head>
+<body>
+
+<h1>OTWheel - OpenToonz-style Color Wheel Library</h1>
+
+<!-- Basic Usage Demo -->
+<div class="demo-section">
+  <h2>Basic Usage</h2>
+  <div class="picker-container">
+    <div id="picker1"></div>
+    <div class="color-info">
+      <div id="preview1" class="color-preview"></div>
+      <div id="info1"></div>
+    </div>
+  </div>
+</div>
+
+<!-- Sliders Demo -->
+<div class="demo-section">
+  <h2>Color Sliders</h2>
+  <div class="picker-container">
+    <div id="sliderWheel"></div>
+    <div style="display:flex;flex-direction:column;gap:15px;">
+      <div style="background:#333;padding:15px;border-radius:4px;">
+        <h4 style="margin:0 0 10px 0;color:#aaa;">HSV</h4>
+        <div id="sliderH"></div>
+        <div id="sliderS"></div>
+        <div id="sliderV"></div>
+      </div>
+      <div style="background:#333;padding:15px;border-radius:4px;">
+        <h4 style="margin:0 0 10px 0;color:#aaa;">Alpha</h4>
+        <div id="sliderA"></div>
+      </div>
+      <div style="background:#333;padding:15px;border-radius:4px;">
+        <h4 style="margin:0 0 10px 0;color:#aaa;">RGB</h4>
+        <div id="sliderR"></div>
+        <div id="sliderG"></div>
+        <div id="sliderB"></div>
+      </div>
+      <div>
+        <div id="sliderPreview" class="color-preview"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- API Demo -->
+<div class="demo-section">
+  <h2>Programmatic Control</h2>
+  <div class="picker-container">
+    <div id="picker2"></div>
+    <div class="color-info">
+      <div id="preview2" class="color-preview"></div>
+      
+      <div class="controls">
+        <label>
+          Hue: <input type="range" id="hueSlider" min="0" max="360" value="0">
+          <span id="hueValue">0°</span>
+        </label>
+        <label>
+          Saturation: <input type="range" id="satSlider" min="0" max="100" value="100">
+          <span id="satValue">100%</span>
+        </label>
+        <label>
+          Value: <input type="range" id="valSlider" min="0" max="100" value="100">
+          <span id="valValue">100%</span>
+        </label>
+        <label>
+          Hex: <input type="text" id="hexInput" value="#ff0000">
+          <button id="setHex">Set</button>
+        </label>
+      </div>
+      
+      <div style="margin-top: 15px;">
+        <button id="setRed">Set Red</button>
+        <button id="setGreen">Set Green</button>
+        <button id="setBlue">Set Blue</button>
+        <button id="setYellow">Set Yellow</button>
+        <button id="setRandom">Random Color</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Multiple Wheels Demo -->
+<div class="demo-section">
+  <h2>Layout Options (Gap & Sizing)</h2>
+  <div class="picker-container">
+    <div>
+      <h4>Gap: 0 (tight)</h4>
+      <div id="pickerGap0"></div>
+    </div>
+    <div>
+      <h4>Gap: 10 (default)</h4>
+      <div id="pickerGap10"></div>
+    </div>
+    <div>
+      <h4>Gap: 25</h4>
+      <div id="pickerGap25"></div>
+    </div>
+  </div>
+  <p style="margin-top: 15px; color: #aaa;">Transparent background allows tight layouts without overlap artifacts.</p>
+</div>
+
+<!-- Multiple Wheels Demo -->
+<div class="demo-section">
+  <h2>Multiple Independent Wheels</h2>
+  <div class="picker-container">
+    <div>
+      <div id="picker3"></div>
+      <div id="preview3" class="color-preview" style="margin-top: 10px;"></div>
+    </div>
+    <div>
+      <div id="picker4"></div>
+      <div id="preview4" class="color-preview" style="margin-top: 10px;"></div>
+    </div>
+  </div>
+</div>
+
+<!-- Code Examples -->
+<div class="demo-section">
+  <h2>Code Examples</h2>
+  
+  <h3>Creating a Wheel</h3>
+  <div class="code-example">// Create a wheel in a container
+const wheel = new OTWheel({
+  container: '#my-container'
+});
+
+// Access the color
+console.log(wheel.color.hex);  // "#ff0000"
+console.log(wheel.color.rgb);  // {r: 255, g: 0, b: 0}
+console.log(wheel.color.hsv);  // {h: 0, s: 1, v: 1}</div>
+
+  <h3>Using OTColor Directly</h3>
+  <div class="code-example">// Create a standalone color
+const color = new OTColor();
+
+// HSV access
+color.h = 120;        // Set hue to green
+color.hue = 120;      // Alias
+color.saturation = 0.8;
+color.value = 0.9;
+
+// RGB access
+color.r = 255;
+color.red = 255;      // Alias
+color.rgb = { r: 255, g: 128, b: 0 };
+
+// Hex access  
+color.hex = '#ff8800';
+console.log(color.hex);  // "#ff8800"
+
+// Batch updates (efficient)
+color.setHSV(180, 0.5, 1);
+color.setRGB(100, 200, 150);</div>
+
+  <h3>Listening to Changes</h3>
+  <div class="code-example">// Listen for color changes
+const unsubscribe = wheel.color.onChange((color) => {
+  console.log('Color changed:', color.hex);
+  myElement.style.background = color.cssRgb;
+});
+
+// Later: stop listening
+unsubscribe();</div>
+
+  <h3>Utility Functions</h3>
+  <div class="code-example">// Static conversion utilities
+const rgb = OTWheel.hsvToRgb(120, 1, 1);    // {r: 0, g: 255, b: 0}
+const hsv = OTWheel.rgbToHsv(255, 128, 0);  // {h: 30, s: 1, v: 1}
+const hex = OTWheel.rgbToHex(255, 128, 0);  // "#ff8000"
+const rgb2 = OTWheel.hexToRgb('#ff8000');   // {r: 255, g: 128, b: 0}</div>
+
+  <h3>Creating Sliders</h3>
+  <div class="code-example">// Create sliders bound to a color
+const color = new OTColor();
+
+const hueSlider = new OTSlider({
+  container: '#hue-slider',
+  channel: 'h',       // 'h', 's', 'v', 'a', 'r', 'g', 'b'
+  color: color,
+  width: 200,         // Slider bar width
+  height: 20,         // Slider bar height
+  showLabel: true,    // Show channel label
+  showInput: true,    // Show numeric input
+  showArrows: true    // Show increment/decrement arrows
+});
+
+// All sliders update automatically when color changes
+color.setHSV(180, 0.8, 1);</div>
+</div>
+
+<script src="otwheel.js"></script>
+<script>
+// ============================================
+// Demo 1: Basic Usage
+// ============================================
+const wheel1 = new OTWheel({
+  container: '#picker1'
+});
+
+const preview1 = document.getElementById('preview1');
+const info1 = document.getElementById('info1');
+
+wheel1.color.onChange((color) => {
+  preview1.style.background = color.cssRgb;
+  info1.innerHTML = `
+    H: ${color.h.toFixed(0)}°<br>
+    S: ${(color.s * 100).toFixed(0)}%<br>
+    V: ${(color.v * 100).toFixed(0)}%<br>
+    RGB: ${color.r}, ${color.g}, ${color.b}<br>
+    Hex: ${color.hex}
+  `;
+});
+
+// Trigger initial update
+wheel1.color.setHSV(0, 1, 1);
+
+// ============================================
+// Demo: Sliders
+// ============================================
+const sliderWheel = new OTWheel({
+  container: '#sliderWheel',
+  hexRadius: 100,
+  triWidth: 110,
+  triHeight: 170,
+  gap: -20,
+  backgroundColor: null
+});
+
+const sliderPreview = document.getElementById('sliderPreview');
+
+// Create all sliders bound to the same color
+const sliderH = new OTSlider({ container: '#sliderH', channel: 'h', color: sliderWheel.color, width: 180 });
+const sliderS = new OTSlider({ container: '#sliderS', channel: 's', color: sliderWheel.color, width: 180 });
+const sliderV = new OTSlider({ container: '#sliderV', channel: 'v', color: sliderWheel.color, width: 180 });
+const sliderA = new OTSlider({ container: '#sliderA', channel: 'a', color: sliderWheel.color, width: 180 });
+const sliderR = new OTSlider({ container: '#sliderR', channel: 'r', color: sliderWheel.color, width: 180 });
+const sliderG = new OTSlider({ container: '#sliderG', channel: 'g', color: sliderWheel.color, width: 180 });
+const sliderB = new OTSlider({ container: '#sliderB', channel: 'b', color: sliderWheel.color, width: 180 });
+
+sliderWheel.color.onChange((c) => {
+  sliderPreview.style.background = c.cssRgb;
+});
+
+sliderWheel.color.setHSV(0, 1, 1);
+
+// ============================================
+// Demo 2: Programmatic Control
+// ============================================
+const wheel2 = new OTWheel({
+  container: '#picker2'
+});
+
+const preview2 = document.getElementById('preview2');
+const hueSlider = document.getElementById('hueSlider');
+const satSlider = document.getElementById('satSlider');
+const valSlider = document.getElementById('valSlider');
+const hexInput = document.getElementById('hexInput');
+
+let updatingFromWheel = false;
+
+wheel2.color.onChange((color) => {
+  preview2.style.background = color.cssRgb;
+  
+  if (!updatingFromWheel) {
+    updatingFromWheel = true;
+    hueSlider.value = color.h;
+    satSlider.value = color.s * 100;
+    valSlider.value = color.v * 100;
+    hexInput.value = color.hex;
+    document.getElementById('hueValue').textContent = color.h.toFixed(0) + '°';
+    document.getElementById('satValue').textContent = (color.s * 100).toFixed(0) + '%';
+    document.getElementById('valValue').textContent = (color.v * 100).toFixed(0) + '%';
+    updatingFromWheel = false;
+  }
+});
+
+// Sliders
+hueSlider.addEventListener('input', () => {
+  updatingFromWheel = true;
+  wheel2.color.h = parseFloat(hueSlider.value);
+  document.getElementById('hueValue').textContent = hueSlider.value + '°';
+  updatingFromWheel = false;
+});
+
+satSlider.addEventListener('input', () => {
+  updatingFromWheel = true;
+  wheel2.color.s = parseFloat(satSlider.value) / 100;
+  document.getElementById('satValue').textContent = satSlider.value + '%';
+  updatingFromWheel = false;
+});
+
+valSlider.addEventListener('input', () => {
+  updatingFromWheel = true;
+  wheel2.color.v = parseFloat(valSlider.value) / 100;
+  document.getElementById('valValue').textContent = valSlider.value + '%';
+  updatingFromWheel = false;
+});
+
+// Hex input
+document.getElementById('setHex').addEventListener('click', () => {
+  wheel2.color.hex = hexInput.value;
+});
+
+hexInput.addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') {
+    wheel2.color.hex = hexInput.value;
+  }
+});
+
+// Preset buttons
+document.getElementById('setRed').addEventListener('click', () => {
+  wheel2.color.setHSV(0, 1, 1);
+});
+
+document.getElementById('setGreen').addEventListener('click', () => {
+  wheel2.color.setHSV(120, 1, 1);
+});
+
+document.getElementById('setBlue').addEventListener('click', () => {
+  wheel2.color.setHSV(240, 1, 1);
+});
+
+document.getElementById('setYellow').addEventListener('click', () => {
+  wheel2.color.setHSV(60, 1, 1);
+});
+
+document.getElementById('setRandom').addEventListener('click', () => {
+  wheel2.color.setHSV(
+    Math.random() * 360,
+    0.5 + Math.random() * 0.5,
+    0.5 + Math.random() * 0.5
+  );
+});
+
+// Initialize
+wheel2.color.setHSV(0, 1, 1);
+
+// ============================================
+// Demo: Gap Options
+// ============================================
+new OTWheel({
+  container: '#pickerGap0',
+  hexRadius: 70,
+  triWidth: 80,
+  triHeight: 120,
+  gap: -20,
+  backgroundColor: null  // Transparent
+});
+
+new OTWheel({
+  container: '#pickerGap10',
+  hexRadius: 70,
+  triWidth: 80,
+  triHeight: 120,
+  gap: 10,
+  backgroundColor: null
+});
+
+new OTWheel({
+  container: '#pickerGap25',
+  hexRadius: 70,
+  triWidth: 80,
+  triHeight: 120,
+  gap: 25,
+  backgroundColor: null
+});
+
+// ============================================
+// Demo 3: Multiple Independent Wheels
+// ============================================
+const wheel3 = new OTWheel({
+  container: '#picker3',
+  hexRadius: 80,
+  triWidth: 90,
+  triHeight: 140
+});
+
+const wheel4 = new OTWheel({
+  container: '#picker4',
+  hexRadius: 80,
+  triWidth: 90,
+  triHeight: 140
+});
+
+const preview3 = document.getElementById('preview3');
+const preview4 = document.getElementById('preview4');
+
+wheel3.color.onChange((c) => preview3.style.background = c.cssRgb);
+wheel4.color.onChange((c) => preview4.style.background = c.cssRgb);
+
+wheel3.color.setHSV(200, 0.8, 0.9);
+wheel4.color.setHSV(30, 0.9, 1);
+</script>
+
+</body>
+</html>
