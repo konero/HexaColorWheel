@@ -1,10 +1,10 @@
-# OTWheel
+# HexaWheel
 
-OpenToonz-style Color Wheel Library - A reusable HSV color picker with hexagonal hue wheel, saturation/value triangle, and color sliders.
+Hexagon Color Wheel Library - A reusable HSV color picker with hexagonal hue wheel, saturation/value triangle, and color sliders.
 
 ## Features
 
-- **Hexagonal Hue Wheel** - OpenToonz-style color selection
+- **Hexagonal Hue Wheel** - Hexagon-based color selection
 - **SV Triangle** - Saturation and Value picker
 - **Color Sliders** - H, S, V, A, R, G, B channel sliders with gradient bars
 - **OTColor Class** - Color representation with getters/setters for HSV and RGB
@@ -130,7 +130,7 @@ OTWheel.hexToRgb(hex);      // Returns {r, g, b} or null
 
 ### OTSlider
 
-OpenToonz-style color slider with gradient bar and triangle indicator.
+Hexagon-style color slider with gradient bar and triangle indicator.
 
 #### Constructor Options
 
