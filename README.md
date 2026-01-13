@@ -1,4 +1,4 @@
-# HexaWheel
+# HexaColorWheel
 
 Hexagon Color Wheel Library - A reusable HSV color picker with hexagonal hue wheel, saturation/value triangle, and color sliders.
 
@@ -7,7 +7,7 @@ Hexagon Color Wheel Library - A reusable HSV color picker with hexagonal hue whe
 - **Hexagonal Hue Wheel** - Hexagon-based color selection
 - **SV Triangle** - Saturation and Value picker
 - **Color Sliders** - H, S, V, A, R, G, B channel sliders with gradient bars
-- **OTColor Class** - Color representation with getters/setters for HSV and RGB
+- **HexaColor Class** - Color representation with getters/setters for HSV and RGB
 - **Event System** - Listen for color changes
 - **Static Utilities** - Conversion functions (HSV↔RGB, Hex↔RGB)
 - **No Dependencies** - Pure vanilla JavaScript
@@ -15,9 +15,9 @@ Hexagon Color Wheel Library - A reusable HSV color picker with hexagonal hue whe
 ## Quick Start
 
 ```html
-<script src="otwheel.js"></script>
+<script src="hexacolorwheel.js"></script>
 <script>
-  const wheel = new OTWheel({
+  const wheel = new HexaColorWheel({
     container: '#my-container'
   });
   
@@ -30,20 +30,21 @@ Hexagon Color Wheel Library - A reusable HSV color picker with hexagonal hue whe
 
 ## API Reference
 
-### OTWheel
+
+### HexaColorWheel
 
 The main widget class that creates the color wheel.
 
 #### Constructor Options
 
 ```javascript
-const wheel = new OTWheel({
+const wheel = new HexaColorWheel({
   container: '#selector' | element,  // Required: container element
   hexRadius: 115,    // Optional: hexagon radius
   triWidth: 130,     // Optional: triangle width
   triHeight: 200,    // Optional: triangle height
   gap: 20,           // Optional: gap between hex and triangle
-  color: new OTColor() // Optional: initial color
+  color: new HexaColor() // Optional: initial color
 });
 ```
 
@@ -51,7 +52,7 @@ const wheel = new OTWheel({
 
 | Property | Type | Description |
 |----------|------|-------------|
-| `color` | `OTColor` | The current color object |
+| `color` | `HexaColor` | The current color object |
 | `canvas` | `HTMLCanvasElement` | The canvas element |
 | `width` | `number` | Canvas width |
 | `height` | `number` | Canvas height |
@@ -65,7 +66,8 @@ const wheel = new OTWheel({
 
 ---
 
-### OTColor
+
+### HexaColor
 
 Represents a color with HSV and RGB access through getters/setters.
 
@@ -118,27 +120,28 @@ unsubscribe(); // Stop listening
 
 ```javascript
 // HSV ↔ RGB conversion
-OTWheel.hsvToRgb(h, s, v);  // Returns {r, g, b}
-OTWheel.rgbToHsv(r, g, b);  // Returns {h, s, v}
+HexaColorWheel.hsvToRgb(h, s, v);  // Returns {r, g, b}
+HexaColorWheel.rgbToHsv(r, g, b);  // Returns {h, s, v}
 
 // Hex ↔ RGB conversion
-OTWheel.rgbToHex(r, g, b);  // Returns "#rrggbb"
-OTWheel.hexToRgb(hex);      // Returns {r, g, b} or null
+HexaColorWheel.rgbToHex(r, g, b);  // Returns "#rrggbb"
+HexaColorWheel.hexToRgb(hex);      // Returns {r, g, b} or null
 ```
 
 ---
 
-### OTSlider
+
+### HexaSlider
 
 Hexagon-style color slider with gradient bar and triangle indicator.
 
 #### Constructor Options
 
 ```javascript
-const slider = new OTSlider({
+const slider = new HexaSlider({
   container: '#selector' | element,  // Required: container element
   channel: 'h',      // Required: 'h', 's', 'v', 'a', 'r', 'g', 'b'
-  color: myColor,    // Required: OTColor instance to bind to
+  color: myColor,    // Required: HexaColor instance to bind to
   width: 200,        // Optional: slider bar width
   height: 20,        // Optional: slider bar height
   showLabel: true,   // Optional: show channel label (H, S, V, etc.)
@@ -151,7 +154,7 @@ const slider = new OTSlider({
 
 | Property | Type | Description |
 |----------|------|-------------|
-| `color` | `OTColor` | The bound color object |
+| `color` | `HexaColor` | The bound color object |
 | `alpha` | `number` | Alpha value (0-255) for alpha slider |
 
 #### Methods
@@ -165,7 +168,7 @@ const slider = new OTSlider({
 ### Basic Usage
 
 ```javascript
-const wheel = new OTWheel({
+const wheel = new HexaColorWheel({
   container: document.getElementById('picker')
 });
 
@@ -174,10 +177,10 @@ wheel.color.onChange((color) => {
 });
 ```
 
-### Using OTColor Standalone
+### Using HexaColor Standalone
 
 ```javascript
-const color = new OTColor();
+const color = new HexaColor();
 
 // Set via HSV
 color.setHSV(120, 0.8, 1);  // Bright green
@@ -198,14 +201,14 @@ console.log(color.v);       // 1
 ### Multiple Wheels with Shared Color
 
 ```javascript
-const sharedColor = new OTColor();
+const sharedColor = new HexaColor();
 
-const wheel1 = new OTWheel({
+const wheel1 = new HexaColorWheel({
   container: '#picker1',
   color: sharedColor
 });
 
-const wheel2 = new OTWheel({
+const wheel2 = new HexaColorWheel({
   container: '#picker2',
   color: sharedColor
 });
@@ -217,7 +220,7 @@ const wheel2 = new OTWheel({
 
 ```javascript
 // Compact wheel
-const compact = new OTWheel({
+const compact = new HexaColorWheel({
   container: '#compact',
   hexRadius: 60,
   triWidth: 70,
@@ -225,7 +228,7 @@ const compact = new OTWheel({
 });
 
 // Large wheel
-const large = new OTWheel({
+const large = new HexaColorWheel({
   container: '#large',
   hexRadius: 200,
   triWidth: 220,
@@ -236,11 +239,11 @@ const large = new OTWheel({
 ### Using Sliders
 
 ```javascript
-const color = new OTColor();
+const color = new HexaColor();
 
 // Create sliders for all channels
 const sliders = ['h', 's', 'v', 'a', 'r', 'g', 'b'].map(channel => 
-  new OTSlider({
+  new HexaSlider({
     container: `#slider-${channel}`,
     channel: channel,
     color: color,
@@ -255,21 +258,21 @@ color.setHSV(180, 0.8, 1);
 ### Wheel + Sliders Combined
 
 ```javascript
-const wheel = new OTWheel({
+const wheel = new HexaColorWheel({
   container: '#picker'
 });
 
 // Create sliders bound to same color
-new OTSlider({ container: '#h', channel: 'h', color: wheel.color });
-new OTSlider({ container: '#s', channel: 's', color: wheel.color });
-new OTSlider({ container: '#v', channel: 'v', color: wheel.color });
+new HexaSlider({ container: '#h', channel: 'h', color: wheel.color });
+new HexaSlider({ container: '#s', channel: 's', color: wheel.color });
+new HexaSlider({ container: '#v', channel: 'v', color: wheel.color });
 
 // Everything stays in sync automatically!
 ```
 
 ## Files
 
-- `otwheel.js` - The main library
+- `hexacolorwheel.js` - The main library
 - `demo.html` - Interactive demo page
 - `README.md` - This documentation
 
